@@ -10,6 +10,7 @@
 
 import SwiftUI
 import Combine
+import ComposableArchitecture
 
 @available(iOS 13, macOS 11, *)
 fileprivate struct AnimatedCheckmark: View {
