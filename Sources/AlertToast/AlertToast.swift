@@ -513,63 +513,65 @@ public struct AlertToastModifier: ViewModifier{
     
     @ViewBuilder
     public func body(content: Content) -> some View {
-        switch alert().displayMode{
-        case .banner:
-            content
-                .overlay(ZStack{
-                    main()
-                        .offset(y: offsetY)
-                }
-                            .animation(Animation.spring(), value: isPresenting)
-                )
-                .valueChanged(value: isPresenting, onChange: { (presented) in
-                    if presented{
-                        onAppearAction()
+        WithPerceptionTracking {
+            switch alert().displayMode{
+            case .banner:
+                content
+                    .overlay(ZStack{
+                        main()
+                            .offset(y: offsetY)
                     }
-                })
-        case .hud:
-            content
-                .overlay(
-                    GeometryReader{ geo -> AnyView in
-                        let rect = geo.frame(in: .global)
-                        
-                        if rect.integral != hostRect.integral{
-                            DispatchQueue.main.async {
-                                self.hostRect = rect
+                        .animation(Animation.spring(), value: isPresenting)
+                    )
+                    .valueChanged(value: isPresenting, onChange: { (presented) in
+                        if presented{
+                            onAppearAction()
+                        }
+                    })
+            case .hud:
+                content
+                    .overlay(
+                        GeometryReader{ geo -> AnyView in
+                            let rect = geo.frame(in: .global)
+                            
+                            if rect.integral != hostRect.integral{
+                                DispatchQueue.main.async {
+                                    self.hostRect = rect
+                                }
                             }
+                            
+                            return AnyView(EmptyView())
                         }
-                        
-                        return AnyView(EmptyView())
-                    }
-                        .overlay(ZStack{
-                            main()
-                                .offset(y: offsetY)
+                            .overlay(ZStack{
+                                main()
+                                    .offset(y: offsetY)
+                            }
+                                .frame(maxWidth: screen.width, maxHeight: screen.height)
+                                .offset(y: offset)
+                                .animation(Animation.spring(), value: isPresenting))
+                    )
+                    .valueChanged(value: isPresenting, onChange: { (presented) in
+                        if presented{
+                            onAppearAction()
                         }
-                                    .frame(maxWidth: screen.width, maxHeight: screen.height)
-                                    .offset(y: offset)
-                                    .animation(Animation.spring(), value: isPresenting))
-                )
-                .valueChanged(value: isPresenting, onChange: { (presented) in
-                    if presented{
-                        onAppearAction()
+                    })
+            case .alert:
+                content
+                    .overlay(ZStack{
+                        main()
+                            .offset(y: offsetY)
                     }
-                })
-        case .alert:
-            content
-                .overlay(ZStack{
-                    main()
-                        .offset(y: offsetY)
-                }
-                            .frame(maxWidth: screen.width, maxHeight: screen.height, alignment: .center)
-                            .edgesIgnoringSafeArea(.all)
-                            .animation(Animation.spring(), value: isPresenting))
-                .valueChanged(value: isPresenting, onChange: { (presented) in
-                    if presented{
-                        onAppearAction()
-                    }
-                })
+                        .frame(maxWidth: screen.width, maxHeight: screen.height, alignment: .center)
+                        .edgesIgnoringSafeArea(.all)
+                        .animation(Animation.spring(), value: isPresenting))
+                    .valueChanged(value: isPresenting, onChange: { (presented) in
+                        if presented{
+                            onAppearAction()
+                        }
+                    })
+            }
+            
         }
-        
     }
     
     private func onAppearAction(){
