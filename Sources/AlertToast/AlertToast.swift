@@ -329,62 +329,65 @@ public struct AlertToast: View{
     }
     
     ///Alert View
+    @MainActor
     public var alert: some View{
-        VStack{
-            switch type{
-            case .complete(let color):
-                Spacer()
-                AnimatedCheckmark(color: color)
-                Spacer()
-            case .error(let color):
-                Spacer()
-                AnimatedXmark(color: color)
-                Spacer()
-            case .systemImage(let name, let color):
-                Spacer()
-                Image(systemName: name)
-                    .renderingMode(.template)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .scaledToFit()
-                    .foregroundColor(color)
-                    .padding(.bottom)
-                Spacer()
-            case .image(let name, let color):
-                Spacer()
-                Image(name)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .scaledToFit()
-                    .foregroundColor(color)
-                    .padding(.bottom)
-                Spacer()
-            case .loading:
-                ActivityIndicator()
-            case .regular:
-                EmptyView()
-            }
-            
-            VStack(spacing: type == .regular ? 8 : 2){
-                if title != nil{
-                    Text(LocalizedStringKey(title ?? ""))
-                        .font(style?.titleFont ?? Font.body.bold())
-                        .multilineTextAlignment(.center)
-                        .textColor(style?.titleColor ?? nil)
+        WithPerceptionTracking {
+            VStack{
+                switch type{
+                case .complete(let color):
+                    Spacer()
+                    AnimatedCheckmark(color: color)
+                    Spacer()
+                case .error(let color):
+                    Spacer()
+                    AnimatedXmark(color: color)
+                    Spacer()
+                case .systemImage(let name, let color):
+                    Spacer()
+                    Image(systemName: name)
+                        .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaledToFit()
+                        .foregroundColor(color)
+                        .padding(.bottom)
+                    Spacer()
+                case .image(let name, let color):
+                    Spacer()
+                    Image(name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .scaledToFit()
+                        .foregroundColor(color)
+                        .padding(.bottom)
+                    Spacer()
+                case .loading:
+                    ActivityIndicator()
+                case .regular:
+                    EmptyView()
                 }
-                if subTitle != nil{
-                    Text(LocalizedStringKey(subTitle ?? ""))
-                        .font(style?.subTitleFont ?? Font.footnote)
-                        .opacity(0.7)
-                        .multilineTextAlignment(.center)
-                        .textColor(style?.subtitleColor ?? nil)
+                
+                VStack(spacing: type == .regular ? 8 : 2){
+                    if title != nil{
+                        Text(LocalizedStringKey(title ?? ""))
+                            .font(style?.titleFont ?? Font.body.bold())
+                            .multilineTextAlignment(.center)
+                            .textColor(style?.titleColor ?? nil)
+                    }
+                    if subTitle != nil{
+                        Text(LocalizedStringKey(subTitle ?? ""))
+                            .font(style?.subTitleFont ?? Font.footnote)
+                            .opacity(0.7)
+                            .multilineTextAlignment(.center)
+                            .textColor(style?.subtitleColor ?? nil)
+                    }
                 }
             }
+            .padding()
+            .withFrame(type != .regular && type != .loading)
+            .alertBackground(style?.backgroundColor ?? nil)
+            .cornerRadius(10)
         }
-        .padding()
-        .withFrame(type != .regular && type != .loading)
-        .alertBackground(style?.backgroundColor ?? nil)
-        .cornerRadius(10)
     }
     
     ///Body init determine by `displayMode`
