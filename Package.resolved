@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "branch" : "observation-beta-perception-performance",
-        "revision" : "1fe3b0c6ef8555090da77a36519cf0425453678c"
+        "branch" : "observation-beta",
+        "revision" : "fa6e9793af2e614bb7cd093b6ac4939902079927"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-perception",
       "state" : {
-        "branch" : "tca-observation-perception-performance",
-        "revision" : "5b01ef6b7979b66d72e1360ff978857fa7a305fe"
+        "revision" : "42240120b2a8797595433288ab4118f8042214c3",
+        "version" : "1.1.1"
       }
     },
     {
