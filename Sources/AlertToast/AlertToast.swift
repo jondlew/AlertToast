@@ -138,12 +138,13 @@ public struct AlertToast: View{
                    titleColor: Color? = nil,
                    subTitleColor: Color? = nil,
                    titleFont: Font? = nil,
-                   subTitleFont: Font? = nil)
+                   subTitleFont: Font? = nil,
+                   cornerRadius: CGFloat? = nil)
         
         ///Get background color
         var backgroundColor: Color? {
             switch self{
-            case .style(backgroundColor: let color, _, _, _, _):
+            case .style(backgroundColor: let color, _, _, _, _, _):
                 return color
             }
         }
@@ -151,7 +152,7 @@ public struct AlertToast: View{
         /// Get title color
         var titleColor: Color? {
             switch self{
-            case .style(_,let color, _,_,_):
+            case .style(_,let color, _,_,_,_):
                 return color
             }
         }
@@ -159,7 +160,7 @@ public struct AlertToast: View{
         /// Get subTitle color
         var subtitleColor: Color? {
             switch self{
-            case .style(_,_, let color, _,_):
+            case .style(_,_, let color, _,_,_):
                 return color
             }
         }
@@ -167,7 +168,7 @@ public struct AlertToast: View{
         /// Get title font
         var titleFont: Font? {
             switch self {
-            case .style(_, _, _, titleFont: let font, _):
+            case .style(_, _, _, titleFont: let font, _,_):
                 return font
             }
         }
@@ -175,8 +176,15 @@ public struct AlertToast: View{
         /// Get subTitle font
         var subTitleFont: Font? {
             switch self {
-            case .style(_, _, _, _, subTitleFont: let font):
+            case .style(_, _, _, _, subTitleFont: let font,_):
                 return font
+            }
+        }
+        
+        var cornerRadius: CGFloat? {
+            switch self {
+            case .style(_,_,_,_,_, cornerRadius: let cornerRadius):
+                return cornerRadius
             }
         }
     }
@@ -266,7 +274,7 @@ public struct AlertToast: View{
             .padding()
             .frame(maxWidth: 400, alignment: .leading)
             .alertBackground(style?.backgroundColor ?? nil)
-            .cornerRadius(10)
+            .cornerRadius(style?.cornerRadius ?? 10)
             .padding([.horizontal, .bottom])
         }
     }
