@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AlertToast",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v16),
         .macOS(.v11)
     ],
     products: [
@@ -16,7 +16,7 @@ let package = Package(
             targets: ["AlertToast"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: Version(1,11,1))
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: Version(1,12,1))
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
