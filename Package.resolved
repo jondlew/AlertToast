@@ -1,5 +1,5 @@
 {
-  "originHash" : "27d4ba814366d6453c638356006069dc19a7b6c54c01fe65fa618365855d1a67",
+  "originHash" : "9d27736239d1981758ce53f0de492de4670b5f14cb3399e3ad554354ac3cb7f9",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/TCA26",
       "state" : {
-        "branch" : "feature-binding",
-        "revision" : "c9bf8933daf0f10a261910dbcbbb5966340c5db4"
+        "branch" : "main",
+        "revision" : "db9829ab6328108b4f1c4c677c29845b28021a78"
       }
     },
     {
