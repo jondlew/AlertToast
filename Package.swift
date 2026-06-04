@@ -16,7 +16,7 @@ let package = Package(
             targets: ["AlertToast"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/TCA26", branch: "main")
+        .package(url: "https://github.com/pointfreeco/TCA26", branch: "main", traits:["Dependencies"])
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
