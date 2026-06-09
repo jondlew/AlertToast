@@ -10,7 +10,8 @@ final class AlertToastTests: XCTestCase {
         XCTAssertEqual(toast.subTitle, "Subtitle")
     }
 
-    static var allTests = [
+    static let allTests = [
         ("testInit", testInit),
     ]
 }
+
