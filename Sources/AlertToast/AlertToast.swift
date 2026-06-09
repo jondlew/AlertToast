@@ -10,7 +10,6 @@
 
 import SwiftUI
 import Combine
-import ComposableArchitecture
 
 @available(iOS 13, macOS 11, *)
 fileprivate struct AnimatedCheckmark: View {
@@ -138,12 +137,13 @@ public struct AlertToast: View{
                    titleColor: Color? = nil,
                    subTitleColor: Color? = nil,
                    titleFont: Font? = nil,
-                   subTitleFont: Font? = nil)
+                   subTitleFont: Font? = nil,
+                   cornerRadius: CGFloat? = nil)
         
         ///Get background color
         var backgroundColor: Color? {
             switch self{
-            case .style(backgroundColor: let color, _, _, _, _):
+            case .style(backgroundColor: let color, _, _, _, _, _):
                 return color
             }
         }
@@ -151,7 +151,7 @@ public struct AlertToast: View{
         /// Get title color
         var titleColor: Color? {
             switch self{
-            case .style(_,let color, _,_,_):
+            case .style(_,let color, _,_,_,_):
                 return color
             }
         }
@@ -159,7 +159,7 @@ public struct AlertToast: View{
         /// Get subTitle color
         var subtitleColor: Color? {
             switch self{
-            case .style(_,_, let color, _,_):
+            case .style(_,_, let color, _,_,_):
                 return color
             }
         }
@@ -167,7 +167,7 @@ public struct AlertToast: View{
         /// Get title font
         var titleFont: Font? {
             switch self {
-            case .style(_, _, _, titleFont: let font, _):
+            case .style(_, _, _, titleFont: let font, _,_):
                 return font
             }
         }
@@ -175,8 +175,15 @@ public struct AlertToast: View{
         /// Get subTitle font
         var subTitleFont: Font? {
             switch self {
-            case .style(_, _, _, _, subTitleFont: let font):
+            case .style(_, _, _, _, subTitleFont: let font,_):
                 return font
+            }
+        }
+        
+        var cornerRadius: CGFloat? {
+            switch self {
+            case .style(_,_,_,_,_, cornerRadius: let cornerRadius):
+                return cornerRadius
             }
         }
     }
@@ -331,7 +338,6 @@ public struct AlertToast: View{
     ///Alert View
     @MainActor
     public var alert: some View{
-        WithPerceptionTracking {
             VStack{
                 switch type{
                 case .complete(let color):
@@ -387,7 +393,7 @@ public struct AlertToast: View{
             .withFrame(type != .regular && type != .loading)
             .alertBackground(style?.backgroundColor ?? nil)
             .cornerRadius(10)
-        }
+        
     }
     
     ///Body init determine by `displayMode`
@@ -516,8 +522,7 @@ public struct AlertToastModifier: ViewModifier{
     
     @ViewBuilder
     public func body(content: Content) -> some View {
-        WithPerceptionTracking {
-            switch alert().displayMode{
+            switch alert().displayMode {
             case .banner:
                 content
                     .overlay(ZStack{
@@ -559,7 +564,6 @@ public struct AlertToastModifier: ViewModifier{
                         }
                     })
             case .alert:
-                WithPerceptionTracking {
                     content
                         .overlay(ZStack{
                             main()
@@ -573,10 +577,8 @@ public struct AlertToastModifier: ViewModifier{
                                 onAppearAction()
                             }
                         })
-                }
+                
             }
-            
-        }
     }
     
     private func onAppearAction(){
@@ -688,9 +690,8 @@ public extension View{
     ///   - alert: () -> AlertToast
     /// - Returns: `AlertToast`
     @MainActor func toast(isPresenting: Binding<Bool>, duration: Double = 2, tapToDismiss: Bool = true, offsetY: CGFloat = 0, alert: @escaping () -> AlertToast, onTap: (() -> ())? = nil, completion: (() -> ())? = nil) -> some View{
-        WithPerceptionTracking {
             modifier(AlertToastModifier(isPresenting: isPresenting, duration: duration, tapToDismiss: tapToDismiss, offsetY: offsetY, alert: alert, onTap: onTap, completion: completion))
-        }
+        
     }
     
     /// Choose the alert background
